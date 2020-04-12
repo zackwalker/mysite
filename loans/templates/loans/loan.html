@@ -1,0 +1,8 @@
+{% for loan in loan_objects %}
+<p>{{ loan.principal }}</p>
+
+{% endfor %}
+{% for att in payoff %}
+<p>{{ att.payoff_style }}</p>
+{% endfor %}
+{{ dataframe }}
