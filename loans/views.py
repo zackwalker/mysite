@@ -20,14 +20,19 @@ class LoanListView(ListView):
 def pie_chart(request):
     labels = []
     data = []
-    test = Profile.objects.filter(user=request.user)
+    test = Profile.objects.filter(user=request.user).values('payoff_style')
     print(test)
     loan_list = []
+    attribute_list = []
+
     for li in LoanInformation.objects.filter(loan_user__user=request.user):
         row = [float(li.principal), round(float(li.interest_rate/12/100),4), float(li.minimum_payment), li.loan_name]
         loan_list.append(row)
 
-    labels,data = master_func(loan_list,4000,'Least Total')
+    for li in Profile.objects.filter(user=request.user):
+        row = [li.payoff_style, float(li.extra_payment)]
+        attribute_list.append(row)
+    labels,data = master_func(loan_list,attribute_list[0][1],attribute_list[0][0])
     return render(request, 'loans/pie_chart.html', {
         'labels': labels,
         'data': data,
