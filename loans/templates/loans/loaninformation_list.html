@@ -8,5 +8,25 @@
      <p>{{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.loan_name }}</a></p>
 {% endfor %}
 
+<form class="" action="google.com" method="post">
+<button type="button" name="button">test</button>
+</form>
+
+<a href="{% url 'loans:add-loan' %}">Click here</a>
+
+<script type="text/javascript">
+  $(function(){
+    $("#update_log_button").click(function(){
+        $.post(
+         url : "/hello/",
+         dataType:"html",
+         success: function(data, status, xhr){
+            //do something with your data
+        }
+        );
+        return false;
+    });
+ });
+</script>
 
 {% endblock %}
