@@ -1,32 +1,28 @@
 {% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type='text/css' href="{% static 'css/list.css' %}">
+  </head>
+  <body>
 
-{% block content %}
+    {% block content %}
 
+    {% for instance in object_list %}
+    <div class="panel panel-success">
+         <div class="panel-heading" id='loan-name'><a href='{{ instance.get_absolute_url }}'>{{ instance.loan_name }}
+            <a class="btn btn-secondary" href='{{instance.id}}/update' role="button">Edit</a> </a></div>
+         <div class="panel-body" id='loan-data'>${{ instance.principal }} - {{ instance.interest_rate }}% - ${{ instance.minimum_payment }}</a></p>
+    </div>
 
+    {% endfor %}
 
-{% for instance in object_list %}
-     <p>{{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.loan_name }}</a></p>
-{% endfor %}
+    <a class="btn btn-primary" href="{% url 'loans:add-loan' %}" role="button">Add a Loan</a>
 
-<form class="" action="google.com" method="post">
-<button type="button" name="button">test</button>
-</form>
+    {% endblock %}
 
-<a href="{% url 'loans:add-loan' %}">Click here</a>
-
-<script type="text/javascript">
-  $(function(){
-    $("#update_log_button").click(function(){
-        $.post(
-         url : "/hello/",
-         dataType:"html",
-         success: function(data, status, xhr){
-            //do something with your data
-        }
-        );
-        return false;
-    });
- });
-</script>
-
-{% endblock %}
+  </body>
+</html>
