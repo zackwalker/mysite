@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div id="container" style="width: 75%;">
+  <!-- <div id="container" style="width: 75%;">
     <canvas id="pie-chart"></canvas>
   </div>
 
@@ -16,9 +16,9 @@
           backgroundColor: [
             '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
           ],
-          label: 'Principal'
+          label: {{ label|safe }}
         }],
-        labels: {{ labels|safe }}
+        labels: ["January", "February", "March", "April", "May", "June", "July"]
       },
       options: {
         responsive: true
@@ -31,5 +31,42 @@
     };
 
   </script>
+ -->
+{{interest}}
+ <html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Loan Data Comparison', 'No Extra','Dave Ramsey','Debt Avalanche','Fastest Payoff','Lowest Interest','Least Out of Pocket'],
+          {{interest}},
+          {{period}},
+          {{oop}},
+          // ['Months', 51170, 60000,51170, 60000,51170, 60000],
+          // ['Out of Pocket', 51170, 60000,51170, 60000,51170, 60000],
+        ]);
+
+        var options = {
+          chart: {
+            title: 'Company Performance',
+            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+          }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+  </head>
+  <body>
+
+    <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+  </body>
+</html>
 
 {% endblock %}

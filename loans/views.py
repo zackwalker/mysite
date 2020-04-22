@@ -18,12 +18,16 @@ class LoanListView(ListView):
     # queryset = LoanInformation.objects.all().select_related('loan_user_id')
 
 def pie_chart(request):
-    labels = []
-    data = []
-    test = Profile.objects.filter(user=request.user).values('payoff_style')
-    print(test)
+    select_labels = []
+    select_labels_none = []
+    select_data = []
+    select_data_none = []
+    first_row = []
     loan_list = []
     attribute_list = []
+
+    template1 = ['Interest', 45000, 50000],
+    template2 =['Principal', 51170, 60000],
 
     for li in LoanInformation.objects.filter(loan_user__user=request.user):
         row = [float(li.principal), round(float(li.interest_rate/12/100),4), float(li.minimum_payment), li.loan_name]
@@ -32,10 +36,21 @@ def pie_chart(request):
     for li in Profile.objects.filter(user=request.user):
         row = [li.payoff_style, float(li.extra_payment)]
         attribute_list.append(row)
-    labels,data = master_func(loan_list,attribute_list[0][1],attribute_list[0][0])
+    data = master_func(loan_list,attribute_list[0][1],attribute_list[0][0])
+    # select_labels_none,select_data_none = master_func(loan_list,attribute_list[0][1],attribute_list[0][0])
+    interest = []
+    period = []
+    oop = []
+    interest = data[0]
+    print(interest)
+    period = data[1]
+    oop = data[2]
+    labels = ['Loan Data Comparison', attribute_list[0][0], 'No Extra', 'Profit']
+
     return render(request, 'loans/pie_chart.html', {
-        'labels': labels,
-        'data': data,
+        'interest': interest,
+        'period': period,
+        'oop': oop,
     })
 
 # def LoanTemplateFuncView(request):
@@ -76,10 +91,10 @@ class LoanUpdateView(UpdateView):
         id_ = self.kwargs.get("id")
         return get_object_or_404(LoanInformation, id=id_)
 
-class LoanDetailView(DetailView):
-    template_name = 'loans/LoanInformation_detail.html'
-    queryset = LoanInformation.objects.all()
-
-    def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(LoanInformation, id=id_)
+# class LoanDetailView(DetailView):
+#     template_name = 'loans/LoanInformation_detail.html'
+#     queryset = LoanInformation.objects.all()
+#
+#     def get_object(self):
+#         id_ = self.kwargs.get("id")
+#         return get_object_or_404(LoanInformation, id=id_)

@@ -26,4 +26,4 @@ class LoanInformation(models.Model):
     loan_name       = models.CharField(max_length=25)
 
     def get_absolute_url(self):
-        return reverse("loans:loan-details", kwargs={"id":self.id})
+        return reverse("loans:loan-update", kwargs={"id":self.id})

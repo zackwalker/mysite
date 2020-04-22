@@ -13,14 +13,17 @@
 
     {% for instance in object_list %}
     <div class="panel panel-success">
-         <div class="panel-heading" id='loan-name'><a href='{{ instance.get_absolute_url }}'>{{ instance.loan_name }}
-            <a class="btn btn-secondary" href='{{instance.id}}/update' role="button">Edit</a> </a></div>
-         <div class="panel-body" id='loan-data'>${{ instance.principal }} - {{ instance.interest_rate }}% - ${{ instance.minimum_payment }}</a></p>
+         <div class="panel-heading" id='loan-name'><a href='{{ instance.get_absolute_url }}'>{{ instance.loan_name }} </a></div>
+         <p class="panel-body" id='loan-data'>Principal: ${{ instance.principal }}</p>
+         <p class="panel-body" id='loan-data'>Annual Interest Rate: {{ instance.interest_rate }}%</p>
+         <p class="panel-body" id='loan-data'>Minimum Payment: ${{ instance.minimum_payment }}</p>
+
+
     </div>
 
     {% endfor %}
+<div> <a class="btn btn-primary" href="{% url 'loans:add-loan' %}" role="button">Add a Loan</a></div>
 
-    <a class="btn btn-primary" href="{% url 'loans:add-loan' %}" role="button">Add a Loan</a>
 
     {% endblock %}
 
