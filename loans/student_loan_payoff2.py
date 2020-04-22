@@ -298,52 +298,52 @@ def payoff_optimization(payoff_style,avalanche_order):
         data.append(interest_comparsion)
         data.append(period_comparsion)
         data.append(out_of_pocket_comparsion)
-        
-        if payoff_style == 'Dave Ramsey' or payoff_style == 'Debt Avalanche':
-            return df
-        else:
-            # dropped_columns = ['Period','Principal','Payment','Interest','Amount_Towards_Principal','Ending Balance','Loan_Name','Inner_Loop_Iteration','index_dup']
-            # summary_df = drop_items(df,dropped_columns)
-            summary_df = summary_df.drop_duplicates()
-            if payoff_style == 'Lowest Interest':
-                summary_df = summary_df.sort_values(by=['Total','max_periods']).head(1) #orders by total then by periods
-                needed_index = list(summary_df.index.values)
-                df = df[df['index_dup'] == needed_index[0]]
-                return df
-            if payoff_style == 'No Extra':
-                summary_df = summary_df.sort_values(by=['Total','max_periods']).tail(1) #orders by total then by periods
-                needed_index = list(summary_df.index.values)
-                df = df[df['index_dup'] == needed_index[0]]
-                return df
-            if payoff_style == 'Quickest':
-                summary_df = summary_df.sort_values(by=['max_periods','Total']).head(1) # orders by periods and then total
-                needed_index = list(summary_df.index.values)
-                df = df[df['index_dup'] == needed_index[0]]
-                return df
-            if payoff_style == 'Least Total':
-                # out_of_pocket = get_out_of_pocket(last_row_df,[total_payment])
-                # last_row_df = last_row_df.sort_values(['total_payed']).head(1)
-                # needed_index = list(last_row_df.index.values)
-                # dropped_columns = ['Principal','Payment','Amount_Towards_Principal','Ending Balance','Inner_Loop_Iteration','max_periods','Total','Loan_Name']
-                # df = drop_items(df, dropped_columns)
-                df = df[df['index_dup'] == needed_index[0]]
-                # df = drop_items(df, ['index_dup'])
-                highest_period = get_highest_period(df)
-                df.set_index('Period', inplace=True)
-                total_interest = get_interest(df)
-                df['Number_Periods'] = highest_period
-                df['Interest'] = total_interest
-                # df['Out of Pocket'] = out_of_pocket
-                # df = pd.merge(df, date_translator, on ='Period', how ='left')
-                # y_axis = df['Principal'].values.tolist()
-                data = []
-                data.append(interest_comparsion)
-                data.append(period_comparsion)
-                data.append(out_of_pocket_comparsion)
-                y_axis = []
-                # for x in df['Dates'].tolist():
-                #     x_axis.append((str(x)[:10]))
-                # df.to_csv("C:\\Users\\zwalk\\Documents\\Desktop\\sentdex\\Loan_Payments\\final.csv")
+        # 
+        # if payoff_style == 'Dave Ramsey' or payoff_style == 'Debt Avalanche':
+        #     return df
+        # else:
+        #     # dropped_columns = ['Period','Principal','Payment','Interest','Amount_Towards_Principal','Ending Balance','Loan_Name','Inner_Loop_Iteration','index_dup']
+        #     # summary_df = drop_items(df,dropped_columns)
+        #     summary_df = summary_df.drop_duplicates()
+        #     if payoff_style == 'Lowest Interest':
+        #         summary_df = summary_df.sort_values(by=['Total','max_periods']).head(1) #orders by total then by periods
+        #         needed_index = list(summary_df.index.values)
+        #         df = df[df['index_dup'] == needed_index[0]]
+        #         return df
+        #     if payoff_style == 'No Extra':
+        #         summary_df = summary_df.sort_values(by=['Total','max_periods']).tail(1) #orders by total then by periods
+        #         needed_index = list(summary_df.index.values)
+        #         df = df[df['index_dup'] == needed_index[0]]
+        #         return df
+        #     if payoff_style == 'Quickest':
+        #         summary_df = summary_df.sort_values(by=['max_periods','Total']).head(1) # orders by periods and then total
+        #         needed_index = list(summary_df.index.values)
+        #         df = df[df['index_dup'] == needed_index[0]]
+        #         return df
+        #     if payoff_style == 'Least Total':
+        #         # out_of_pocket = get_out_of_pocket(last_row_df,[total_payment])
+        #         # last_row_df = last_row_df.sort_values(['total_payed']).head(1)
+        #         # needed_index = list(last_row_df.index.values)
+        #         # dropped_columns = ['Principal','Payment','Amount_Towards_Principal','Ending Balance','Inner_Loop_Iteration','max_periods','Total','Loan_Name']
+        #         # df = drop_items(df, dropped_columns)
+        #         df = df[df['index_dup'] == needed_index[0]]
+        #         # df = drop_items(df, ['index_dup'])
+        #         highest_period = get_highest_period(df)
+        #         df.set_index('Period', inplace=True)
+        #         total_interest = get_interest(df)
+        #         df['Number_Periods'] = highest_period
+        #         df['Interest'] = total_interest
+        #         # df['Out of Pocket'] = out_of_pocket
+        #         # df = pd.merge(df, date_translator, on ='Period', how ='left')
+        #         # y_axis = df['Principal'].values.tolist()
+        #         data = []
+        #         data.append(interest_comparsion)
+        #         data.append(period_comparsion)
+        #         data.append(out_of_pocket_comparsion)
+        #         y_axis = []
+        #         # for x in df['Dates'].tolist():
+        #         #     x_axis.append((str(x)[:10]))
+        #         # df.to_csv("C:\\Users\\zwalk\\Documents\\Desktop\\sentdex\\Loan_Payments\\final.csv")
         return data
 def get_highest_period(df):
     highest_period = df['Period'].max()
