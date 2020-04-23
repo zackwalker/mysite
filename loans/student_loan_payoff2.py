@@ -16,6 +16,8 @@ WF1_Loan = [8250.25,.0774/12,84.62,"WF1"]
 WF2_Loan = [20000.29,.0649/12,191.04,"WF2"]
 loan_list = [WF1_Loan,Lisa_Car,WF2_Loan]
 
+data = []
+
 today = date.today()
 # def mkFirstOfMonth2(dtDateTime):
 #     #what is the first day of the current month
@@ -294,11 +296,11 @@ def payoff_optimization(payoff_style,avalanche_order):
             lowest_interest(df,needed_index[0],total_payment)
             least_oop(df,oop_index,total_payment)
 
-        data = []
+
         data.append(interest_comparsion)
         data.append(period_comparsion)
         data.append(out_of_pocket_comparsion)
-        # 
+        #
         # if payoff_style == 'Dave Ramsey' or payoff_style == 'Debt Avalanche':
         #     return df
         # else:

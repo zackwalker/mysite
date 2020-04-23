@@ -8,6 +8,7 @@ from itertools import permutations
 from  .student_loan_payoff2 import master_func
 from django.http import HttpResponse
 from chartjs.views.lines import BaseLineChartView
+import json
 
 class LoanListView(ListView):
     def get_queryset(self):
@@ -26,9 +27,9 @@ def pie_chart(request):
     loan_list = []
     attribute_list = []
 
-    template1 = ['Interest', 45000, 50000],
-    template2 =['Principal', 51170, 60000],
-
+    interest = ['Interest']
+    period = []
+    oop = []
     for li in LoanInformation.objects.filter(loan_user__user=request.user):
         row = [float(li.principal), round(float(li.interest_rate/12/100),4), float(li.minimum_payment), li.loan_name]
         loan_list.append(row)
@@ -41,12 +42,12 @@ def pie_chart(request):
     interest = []
     period = []
     oop = []
-    interest = data[0]
-    print(interest)
+    i=0
+    for object in data[0]:
+        interest.append(data[0][i])
+        i+=1
     period = data[1]
     oop = data[2]
-    labels = ['Loan Data Comparison', attribute_list[0][0], 'No Extra', 'Profit']
-
     return render(request, 'loans/pie_chart.html', {
         'interest': interest,
         'period': period,

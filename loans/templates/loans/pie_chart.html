@@ -32,7 +32,12 @@
 
   </script>
  -->
-{{interest}}
+
+<p>{{interest}}</p>
+ <p>{{period}}</p>
+<p>{{oop}}</p>
+
+
  <html>
   <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -41,12 +46,14 @@
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
+
         var data = google.visualization.arrayToDataTable([
           ['Loan Data Comparison', 'No Extra','Dave Ramsey','Debt Avalanche','Fastest Payoff','Lowest Interest','Least Out of Pocket'],
-          {{interest}},
-          {{period}},
-          {{oop}},
-          // ['Months', 51170, 60000,51170, 60000,51170, 60000],
+          // ['Interest', 2580.86, 2514.68, 2895.7, 2580.86, 2580.86, 2580.86],
+          {{interest|safe}},
+          {{period|safe}},
+          {{oop|safe}},
+          // ['Principal', 51170, 60000,51170, 60000,51170, 60000],
           // ['Out of Pocket', 51170, 60000,51170, 60000,51170, 60000],
         ]);
 
