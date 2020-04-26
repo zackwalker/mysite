@@ -1,14 +1,10 @@
 import math
 import csv
-import global_vars
 from itertools import permutations
 import pandas as pd
 import operator
 from IPython.core.display import display
 import numpy as np
-import datetime
-import time
-from datetime import date
 import operator
 #not needed for now, but its my old loans
 Lisa_Car = [5000,.0859/12,333,"Lisa_Car"]
@@ -28,29 +24,6 @@ def drop_items(df,items_to_drop):
 def Loan_payoff(perms,extra_money,payoff_style):
     #initiate variabes
 
-    # if len(perms) == 1:
-    #     temp_perm_list = dict(enumerate(sorted(permutations(perms))))
-    #     temp_dict = {0 : temp_perm_list[0]}
-    # else:
-    #     temp_perm_list = dict(enumerate(sorted(permutations(perms))))
-        # temp_dict = {0 : temp_perm_list[0]}
-        # interest_rate_order = []
-        # [interest_rate_order.append(x[1]) for x in perms]
-        # dict_on_interest_rates = (dict(enumerate(interest_rate_order)))
-        # dict_on_interest_rates=sorted(dict_on_interest_rates.items(), key=operator.itemgetter(1),reverse=True)
-        # new_perms = []
-        # for i in range(len(perms)):
-        #     new_perms.append(perms[dict_on_interest_rates[i][0]])
-        # perms = new_perms
-        # perms = dict(enumerate(permutations(perms)))
-        # temp_dict[1]= perms[0]
-        # values_exist = []
-        # for i in temp_dict:
-        #     values_exist.append(temp_dict[i])
-        # for i in range(len(perms) - 2):
-        #     if perms[i] not in values_exist:
-        #         temp_dict[i+2] = perms[i]
-
     perms = dict(enumerate(sorted(permutations(perms))))
 
     outer_index = 0
@@ -59,11 +32,11 @@ def Loan_payoff(perms,extra_money,payoff_style):
     final_candidates = []
     sec_try = []
     for loan_combo in range(len(perms)):
-        global_vars.excess = 0
-        global_vars.Total_Pay = 0
-        global_vars.prev_agg_payment = 0
-        global_vars.agg_payment = 0
-        global_vars.num_periods = 1
+        excess_amt = 0
+        # global_vars.Total_Pay = 0
+        prev_agg_payment = 0
+        agg_payment = 0
+        num_periods = 1
         inner_index = 0
         outer_index += 1
 
@@ -93,9 +66,9 @@ def Loan_payoff(perms,extra_money,payoff_style):
 
                 if prin[-1] > 0:
 
-                    if per == global_vars.num_periods-1:
+                    if per == num_periods-1:
 
-                        payment.append(round(monthly_payment + global_vars.excess,2))
+                        payment.append(round(monthly_payment + excess_amt,2))
                         i.append(round(interest_rate * prin[per],2))
                         POP.append(round(payment[per] - i[per],2))
                         end_Prin.append(round(prin[per] - POP[per],2))
@@ -105,10 +78,10 @@ def Loan_payoff(perms,extra_money,payoff_style):
                         inner_loop_index.append(inner_index)
                         zip_list = zip(period, prin, payment, i, POP, end_Prin,loan_name,index_track,inner_loop_index)
 
-                    elif per >= global_vars.num_periods:
-                        payment.append(round(monthly_payment + global_vars.agg_payment,2))
+                    elif per >= num_periods:
+                        payment.append(round(monthly_payment + agg_payment,2))
                         i.append(round(interest_rate * prin[per],2))
-                        POP.append(round(monthly_payment + global_vars.agg_payment - i[per],2))
+                        POP.append(round(monthly_payment + agg_payment - i[per],2))
                         end_Prin.append(round(prin[per] - POP[per],2))
                         prin.append(round(end_Prin[per],2))
                         loan_name.append(name)
@@ -116,7 +89,7 @@ def Loan_payoff(perms,extra_money,payoff_style):
                         inner_loop_index.append(inner_index)
                         zip_list = zip(period, prin, payment, i, POP, end_Prin,loan_name,index_track,inner_loop_index)
 
-                    elif per < global_vars.num_periods-1:
+                    elif per < num_periods-1:
                         payment.append(round(monthly_payment,2))
                         i.append(round(interest_rate * prin[per],2))
                         POP.append(round(monthly_payment - i[per],2))
@@ -127,13 +100,14 @@ def Loan_payoff(perms,extra_money,payoff_style):
                         inner_loop_index.append(inner_index)
                         zip_list = zip(period, prin, payment, i, POP, end_Prin,loan_name,index_track,inner_loop_index)
 
-            global_vars.excess = -end_Prin[-1]
-            global_vars.agg_payment = monthly_payment + global_vars.agg_payment
-            global_vars.num_periods = len(end_Prin)
+            excess_amt = -end_Prin[-1]
+            agg_payment = monthly_payment + agg_payment
+            num_periods = len(end_Prin)
 
             zip_list = list(zip_list)
             Write_Function(zip_list)
         final_candidates.append(zip_list)
+        print(final_candidates)
     return final_candidates
 
 def Write_Function(data):
