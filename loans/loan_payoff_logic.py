@@ -1,11 +1,13 @@
 import math
 import csv
+import global_vars
 from itertools import permutations
 import pandas as pd
 import operator
 from IPython.core.display import display
 import numpy as np
 import operator
+
 #not needed for now, but its my old loans
 Lisa_Car = [5000,.0859/12,333,"Lisa_Car"]
 WF1_Loan = [8250.25,.0774/12,84.62,"WF1"]
@@ -15,28 +17,32 @@ mortgage = [180000,.04/12,1331.44,"mortgage"]
 loan_list = [WF1_Loan,Lisa_Car,WF2_Loan,test123,mortgage]
 
 data = []
+interest_comparsion = ['Interest']
+period_comparsion = ['Months']
+out_of_pocket_comparsion = ['Out of Pocket']
 
 def drop_items(df,items_to_drop):
     for item in items_to_drop:
         df= df.drop(item, axis=1)
     return df
+
 #dave ramsey, minimize interest, least number of periods, snow avalanche, lowest value in payments
 def Loan_payoff(perms,extra_money,payoff_style):
     #initiate variabes
 
     perms = dict(enumerate(sorted(permutations(perms))))
+    df = pd.DataFrame()
 
     outer_index = 0
     main_list = []
     temp_list = []
-    final_candidates = []
     sec_try = []
     for loan_combo in range(len(perms)):
-        excess_amt = 0
-        # global_vars.Total_Pay = 0
-        prev_agg_payment = 0
-        agg_payment = 0
-        num_periods = 1
+        global_vars.excess = 0
+        global_vars.Total_Pay = 0
+        global_vars.prev_agg_payment = 0
+        global_vars.agg_payment = 0
+        global_vars.num_periods = 1
         inner_index = 0
         outer_index += 1
 
@@ -66,9 +72,9 @@ def Loan_payoff(perms,extra_money,payoff_style):
 
                 if prin[-1] > 0:
 
-                    if per == num_periods-1:
+                    if per == global_vars.num_periods-1:
 
-                        payment.append(round(monthly_payment + excess_amt,2))
+                        payment.append(round(monthly_payment + global_vars.excess,2))
                         i.append(round(interest_rate * prin[per],2))
                         POP.append(round(payment[per] - i[per],2))
                         end_Prin.append(round(prin[per] - POP[per],2))
@@ -78,10 +84,10 @@ def Loan_payoff(perms,extra_money,payoff_style):
                         inner_loop_index.append(inner_index)
                         zip_list = zip(period, prin, payment, i, POP, end_Prin,loan_name,index_track,inner_loop_index)
 
-                    elif per >= num_periods:
-                        payment.append(round(monthly_payment + agg_payment,2))
+                    elif per >= global_vars.num_periods:
+                        payment.append(round(monthly_payment + global_vars.agg_payment,2))
                         i.append(round(interest_rate * prin[per],2))
-                        POP.append(round(monthly_payment + agg_payment - i[per],2))
+                        POP.append(round(monthly_payment + global_vars.agg_payment - i[per],2))
                         end_Prin.append(round(prin[per] - POP[per],2))
                         prin.append(round(end_Prin[per],2))
                         loan_name.append(name)
@@ -89,7 +95,7 @@ def Loan_payoff(perms,extra_money,payoff_style):
                         inner_loop_index.append(inner_index)
                         zip_list = zip(period, prin, payment, i, POP, end_Prin,loan_name,index_track,inner_loop_index)
 
-                    elif per < num_periods-1:
+                    elif per < global_vars.num_periods-1:
                         payment.append(round(monthly_payment,2))
                         i.append(round(interest_rate * prin[per],2))
                         POP.append(round(monthly_payment - i[per],2))
@@ -100,31 +106,13 @@ def Loan_payoff(perms,extra_money,payoff_style):
                         inner_loop_index.append(inner_index)
                         zip_list = zip(period, prin, payment, i, POP, end_Prin,loan_name,index_track,inner_loop_index)
 
-            excess_amt = -end_Prin[-1]
-            agg_payment = monthly_payment + agg_payment
-            num_periods = len(end_Prin)
+            global_vars.excess = -end_Prin[-1]
+            global_vars.agg_payment = monthly_payment + global_vars.agg_payment
+            global_vars.num_periods = len(end_Prin)
 
             zip_list = list(zip_list)
-            Write_Function(zip_list)
-        final_candidates.append(zip_list)
-        print(final_candidates)
-    return final_candidates
-
-def Write_Function(data):
-    my_file = open("LPayments_Calc.csv", 'a', newline = '' )
-    wr = csv.writer(my_file)
-    wr.writerows(data)
-    my_file.close
-
-def init_Write_Function():
-    my_file = open("LPayments_Calc.csv", 'w', newline = '' )
-    my_file.truncate()
-    wr = csv.writer(my_file)
-    wr.writerow(["Period", "Principal", "Payment"
-                ,"Interest","Amount_Towards_Principal","Ending Balance"
-                ,"Loan_Name", "Index","Inner_Loop_Iteration"])
-    my_file.close
-
+            df = df.append(zip_list)
+    return df
 
 def dave_ramsey(df, indx, total_payment):
 
@@ -182,19 +170,15 @@ def least_oop(df, indx, total_payment):
     period_comparsion.append(num_pers)
     interest_comparsion.append(get_interest(df))
 
-
 def needed_index(df):
         df = df.sort_values(by=['Total','max_periods']).head(1) #orders by total then by periods
         needed_index = list(df.index.values)
         return needed_index
 
-
-interest_comparsion = ['Interest']
-period_comparsion = ['Months']
-out_of_pocket_comparsion = ['Out of Pocket']
-
-def payoff_optimization(payoff_style,avalanche_order):
-        df = pd.read_csv("LPayments_Calc.csv")
+def payoff_optimization(payoff_style,avalanche_order, df):
+        df.columns = ["Period", "Principal", "Payment"
+                    ,"Interest","Amount_Towards_Principal","Ending Balance"
+                    ,"Loan_Name", "Index","Inner_Loop_Iteration"]
         # df.to_csv("C:\\Users\\zwalk\\Documents\\Desktop\\sentdex\\Loan_Payments\\final1.csv")
         number_of_loans = len(avalanche_order)
         index_match = 0
@@ -264,12 +248,12 @@ def payoff_optimization(payoff_style,avalanche_order):
             lowest_interest(df,needed_index[0],total_payment)
             least_oop(df,oop_index[0],total_payment)
 
-
         data.append(interest_comparsion)
         data.append(period_comparsion)
         data.append(out_of_pocket_comparsion)
 
         return data
+
 def get_highest_period(df):
     highest_period = df['Period'].max()
     return highest_period
@@ -279,7 +263,6 @@ def get_interest(df):
     return round(total_interest,2)
 
 def get_out_of_pocket(df, total_payment, periods):
-
     max_per = list(df.max_periods.values)
     df = df[df['Period'] == max_per[0]] #need to make this max period per index
     df = df.groupby('Index').last()
@@ -296,8 +279,7 @@ def master_func(perms,extra_money,payoff_style):
     avalanche_order = []
     for i in range(len(perms)):
         avalanche_order.append(perms[dict_on_interest_rates[i][0]][3])
-    init_Write_Function()
-    Loan_payoff(perms,extra_money,payoff_style)
-    return payoff_optimization(payoff_style,avalanche_order)
+    amortization = Loan_payoff(perms,extra_money,payoff_style)
+    return payoff_optimization(payoff_style,avalanche_order,amortization)
 
 # master_func(loan_list,4000,'Least Total')

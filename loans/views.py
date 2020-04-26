@@ -5,7 +5,7 @@ from django.views.generic import CreateView, DetailView, UpdateView, ListView, D
 from django.urls import reverse
 import queryset_converter
 from itertools import permutations
-from  .student_loan_payoff2 import master_func
+from  .loan_payoff_logic import master_func
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 
