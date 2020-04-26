@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'products',
     'pages',
     'loans',
-    'chartjs',
+
 ]
 
 MIDDLEWARE = [
