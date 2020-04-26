@@ -6,7 +6,7 @@ urlpatterns = [
     path('', views.LoanListView.as_view(), name='loan-list'),
     path('create/', views.LoanCreateView.as_view(), name='add-loan'),
     path('chart/', views.pie_chart, name='pie-chart'),
-    # path('<int:id>/', views.LoanDetailView.as_view(), name='loan-details'),
+    path('<int:id>/delete', views.LoanDeleteView.as_view(), name='loan-delete'),
     path('<int:id>/update/', views.LoanUpdateView.as_view(), name='loan-update'),
 
 ]
