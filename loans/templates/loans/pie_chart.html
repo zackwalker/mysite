@@ -1,71 +1,80 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <!-- <div id="container" style="width: 75%;">
-    <canvas id="pie-chart"></canvas>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-  <script>
-
-    var config = {
-      type: 'bar',
-      data: {
-        datasets: [{
-          data: {{ data|safe }},
-          backgroundColor: [
-            '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
-          ],
-          label: {{ label|safe }}
-        }],
-        labels: ["January", "February", "March", "April", "May", "June", "July"]
-      },
-      options: {
-        responsive: true
-      }
-    };
-
-    window.onload = function() {
-      var ctx = document.getElementById('pie-chart').getContext('2d');
-      window.myPie = new Chart(ctx, config);
-    };
-
-  </script>
- -->
-{{interest}}
  <html>
   <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
       google.charts.load('current', {'packages':['bar']});
-      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawChartInterest);
+      google.charts.setOnLoadCallback(drawChartOOP);
+      google.charts.setOnLoadCallback(drawChartPeriods);
 
-      function drawChart() {
+      function drawChartInterest() {
+
         var data = google.visualization.arrayToDataTable([
           ['Loan Data Comparison', 'No Extra','Dave Ramsey','Debt Avalanche','Fastest Payoff','Lowest Interest','Least Out of Pocket'],
-          {{interest}},
-          {{period}},
-          {{oop}},
-          // ['Months', 51170, 60000,51170, 60000,51170, 60000],
-          // ['Out of Pocket', 51170, 60000,51170, 60000,51170, 60000],
+          {{interest|safe}},
         ]);
 
         var options = {
           chart: {
-            title: 'Company Performance',
-            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+            title: 'Interest per Payoff Strategy',
+            subtitle: '',
           }
         };
 
-        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+        var chart = new google.charts.Bar(document.getElementById('Interest'));
 
         chart.draw(data, google.charts.Bar.convertOptions(options));
-      }
+      };
+
+
+    function drawChartOOP() {
+
+      var data = google.visualization.arrayToDataTable([
+        ['Loan Data Comparison', 'No Extra','Dave Ramsey','Debt Avalanche','Fastest Payoff','Lowest Interest','Least Out of Pocket'],
+        {{oop|safe}},
+      ]);
+
+      var options = {
+        chart: {
+          title: 'Out of Pocket per Payoff Strategy',
+          subtitle: '2017',
+        }
+      };
+
+      var chart = new google.charts.Bar(document.getElementById('test'));
+
+      chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+
+    function drawChartPeriods() {
+
+      var data = google.visualization.arrayToDataTable([
+        ['Loan Data Comparison', 'No Extra','Dave Ramsey','Debt Avalanche','Fastest Payoff','Lowest Interest','Least Out of Pocket'],
+        {{period|safe}},
+      ]);
+
+      var options = {
+        chart: {
+          title: 'Period Comparison per Payoff Strategy',
+          subtitle: '2017',
+        }
+      };
+
+      var chart = new google.charts.Bar(document.getElementById('Period'));
+
+      chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+
     </script>
   </head>
   <body>
 
-    <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+    <div id="Interest" style="width: 800px; height: 500px;"></div>
+    <div id="test" style="width: 800px; height: 500px;"></div>
+    <div id="Period" style="width: 800px; height: 500px;"></div>
   </body>
 </html>
 
