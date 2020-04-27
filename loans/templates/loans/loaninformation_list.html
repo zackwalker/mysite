@@ -12,14 +12,16 @@
     {% block content %}
 
     {% for instance in object_list %}
-    <div class="panel panel-success">
-         <div class="panel-heading" id='loan-name'><a href='{{ instance.get_absolute_url }}'>{{ instance.loan_name }} </a></div>
-         <p class="panel-body" id='loan-data'>Principal: ${{ instance.principal }}</p>
-         <p class="panel-body" id='loan-data'>Annual Interest Rate: {{ instance.interest_rate }}%</p>
-         <p class="panel-body" id='loan-data'>Minimum Payment: ${{ instance.minimum_payment }}</p>
-
-
-    </div>
+<div class="card text-center">
+  <div class="card-header">
+    <a href='{{ instance.get_absolute_url }}'>{{ instance.loan_name }} </a>
+  </div>
+  <div class="card-body">
+    <p class="panel-body" id='loan-data'>Principal: ${{ instance.principal }}</p>
+    <p class="panel-body" id='loan-data'>Annual Interest Rate: {{ instance.interest_rate }}%</p>
+    <p class="panel-body" id='loan-data'>Minimum Payment: ${{ instance.minimum_payment }}</p>
+  </div>
+</div>
 
     {% endfor %}
 <div> <a class="btn btn-primary" href="{% url 'loans:add-loan' %}" role="button">Add a Loan</a></div>

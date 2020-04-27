@@ -2,12 +2,10 @@ from django.shortcuts import render,get_object_or_404
 from .models import LoanInformation, Profile
 from .forms import AddLoans
 from django.views.generic import CreateView, DetailView, UpdateView, ListView, DeleteView
-from django.urls import reverse
-import queryset_converter
 from itertools import permutations
 from  .loan_payoff_logic import master_func
 from django.http import HttpResponse
-from django.urls import reverse_lazy
+
 
 class LoanListView(ListView):
     def get_queryset(self):
@@ -25,7 +23,7 @@ def pie_chart(request):
     for li in Profile.objects.filter(user=request.user):
         row = [li.payoff_style, float(li.extra_payment)]
         attribute_list.append(row)
-        
+
     data = master_func(loan_list,attribute_list[0][1],attribute_list[0][0])
     interest = []
     period = []
@@ -56,10 +54,7 @@ class LoanUpdateView(UpdateView):
 class LoanDeleteView(DeleteView):
     model = LoanInformation
     template_name = 'loans/LoanInformation_delete.html'
-
+    success_url = '/'
     def get_object(self):
         id_ = self.kwargs.get("id")
         return get_object_or_404(LoanInformation, id=id_)
-
-        def get_success_url(self):
-            return reverse('loans:loan-list')
