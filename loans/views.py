@@ -14,10 +14,6 @@ class LoanListView(ListView):
         return LoanInformation.objects.filter(loan_user__user=self.request.user)
 
 def pie_chart(request):
-    select_labels = []
-    select_labels_none = []
-    select_data = []
-    select_data_none = []
     first_row = []
     loan_list = []
     attribute_list = []
@@ -29,6 +25,7 @@ def pie_chart(request):
     for li in Profile.objects.filter(user=request.user):
         row = [li.payoff_style, float(li.extra_payment)]
         attribute_list.append(row)
+        
     data = master_func(loan_list,attribute_list[0][1],attribute_list[0][0])
     interest = []
     period = []
