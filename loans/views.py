@@ -41,8 +41,8 @@ def pie_chart(request):
 class LoanCreateView(CreateView):
     template_name = 'loans/LoanInformation_create.html'
     form_class = AddLoans
-    queryset = LoanInformation.objects.all()
-
+    success_url = '/'
+    
 class LoanUpdateView(UpdateView):
     template_name = 'loans/LoanInformation_update.html'
     form_class = AddLoans

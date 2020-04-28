@@ -12,7 +12,7 @@
     {% block content %}
 
     {% for instance in object_list %}
-<div class="card text-center">
+<div class="card text-center mx-auto mt-2" id='test'>
   <div class="card-header">
     <a href='{{ instance.get_absolute_url }}'>{{ instance.loan_name }} </a>
   </div>
