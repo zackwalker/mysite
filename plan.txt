@@ -1,0 +1,16 @@
+Don't Need Authentication:
+Login
+  -this is created, needs different styling in CSS
+Logout
+  -this is created, needs different styling in CSS
+Landing Page
+  -has not been created yet
+About
+  -has not been created yet
+
+Need Authentication:
+
+Home Page
+  -not created yet
+Visual Page
+  -Created but needs styling done to it

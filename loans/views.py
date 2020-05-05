@@ -6,6 +6,8 @@ from itertools import permutations
 from  .loan_payoff_logic import master_func
 from django.http import HttpResponse
 
+def landing_page(request):
+    return render(request,'loans/landing_page.html')
 
 class LoanListView(ListView):
     def get_queryset(self):
@@ -42,7 +44,7 @@ class LoanCreateView(CreateView):
     template_name = 'loans/LoanInformation_create.html'
     form_class = AddLoans
     success_url = '/'
-    
+
 class LoanUpdateView(UpdateView):
     template_name = 'loans/LoanInformation_update.html'
     form_class = AddLoans

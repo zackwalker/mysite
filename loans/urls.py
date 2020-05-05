@@ -3,7 +3,8 @@ from . import views
 
 app_name = 'loans'
 urlpatterns = [
-    path('', views.LoanListView.as_view(), name='loan-list'),
+    path('', views.landing_page, name='loan-landing'),
+    path('portal', views.LoanListView.as_view(), name='loan-list'),
     path('create/', views.LoanCreateView.as_view(), name='add-loan'),
     path('chart/', views.pie_chart, name='loan-visual'),
     path('<int:id>/delete', views.LoanDeleteView.as_view(), name='loan-delete'),

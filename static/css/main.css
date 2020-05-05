@@ -1,0 +1,14 @@
+body {
+  background-color: #F5F5F5;
+  background-color: #993333;
+}
+
+.limiter{
+  width: 350px;
+  padding: 10px;
+  background: #993333;
+  text-align: center;
+  margin: 0 auto;
+  border: 1px solid #000000;
+  color: #fff;
+}
