@@ -5,6 +5,7 @@ from django.views.generic import CreateView, DetailView, UpdateView, ListView, D
 from itertools import permutations
 from  .loan_payoff_logic import master_func
 from django.http import HttpResponse
+from django.urls import reverse_lazy
 
 def landing_page(request):
     return render(request,'loans/landing_page.html')
@@ -43,7 +44,7 @@ def pie_chart(request):
 class LoanCreateView(CreateView):
     template_name = 'loans/LoanInformation_create.html'
     form_class = AddLoans
-    success_url = '/'
+    success_url = reverse_lazy('loans:loan-list')
 
 class LoanUpdateView(UpdateView):
     template_name = 'loans/LoanInformation_update.html'
@@ -56,7 +57,7 @@ class LoanUpdateView(UpdateView):
 class LoanDeleteView(DeleteView):
     model = LoanInformation
     template_name = 'loans/LoanInformation_delete.html'
-    success_url = '/'
+    success_url = reverse_lazy('loans:loan-list')
     def get_object(self):
         id_ = self.kwargs.get("id")
         return get_object_or_404(LoanInformation, id=id_)
