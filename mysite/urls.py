@@ -17,12 +17,6 @@ from django.contrib import admin
 from django.urls import path,include
 
 urlpatterns = [
-    # path('polls/', include('polls.urls')),
-    # path('', home_view, name='home'),
-    # path('contacts/', contacts_view, name='contacts'),
-    # path('product/', product_detail_view, name='product'),
-    # path('create/', product_create_view, name='product'),
-    # path('about/', about_view, name='about'),
     path('', include('loans.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),]

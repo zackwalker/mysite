@@ -46,6 +46,11 @@ class LoanCreateView(CreateView):
     form_class = AddLoans
     success_url = reverse_lazy('loans:loan-list')
 
+# class ProfileCreateView(CreateView):
+#     template_name = 'loans/Profile_create.html'
+#     form_class = Profile
+#     success_url = reverse_lazy('loans:loan-list')
+
 class LoanUpdateView(UpdateView):
     template_name = 'loans/LoanInformation_update.html'
     form_class = AddLoans

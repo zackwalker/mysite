@@ -13,16 +13,6 @@ body {
   color: #fff;
 }
 
-
-.my_paragraph{
-  width: 1000px;
-  text-align: center;
-  margin-left: auto ;
-  margin-right: auto ;
-}
-#test{
-  width: 350px;
-}
 .card {
   /* Add shadows to create the "card" effect */
   /* width: 350px; */
@@ -41,4 +31,11 @@ body {
 /* Add some padding inside the card container */
 .container {
   padding: 2px 16px;
+}
+
+.my_paragraph{
+  width: 1200px;
+  text-align: center;
+  margin-left: auto ;
+  margin-right: auto ;
 }
