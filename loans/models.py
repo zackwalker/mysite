@@ -27,5 +27,8 @@ class LoanInformation(models.Model):
     minimum_payment = models.DecimalField(decimal_places=2, max_digits=10)
     loan_name       = models.CharField(max_length=25)
 
+    def __str__(self):
+        return self.loan_name
+
     def get_absolute_url(self):
         return reverse("loans:loan-update", kwargs={"id":self.id})

@@ -1,11 +1,12 @@
 from django.shortcuts import render,get_object_or_404
 from .models import LoanInformation, Profile
-from .forms import AddLoans
+from .forms import AddLoans, ProfileForm, UserForm
 from django.views.generic import CreateView, DetailView, UpdateView, ListView, DeleteView
 from itertools import permutations
 from  .loan_payoff_logic import master_func
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.contrib.auth.forms import UserCreationForm
 
 def landing_page(request):
     return render(request,'loans/landing_page.html')
@@ -41,15 +42,38 @@ def pie_chart(request):
         'oop': oop,
     })
 
-class LoanCreateView(CreateView):
-    template_name = 'loans/LoanInformation_create.html'
-    form_class = AddLoans
-    success_url = reverse_lazy('loans:loan-list')
+def registerPage(request):
+    # form = RegisterProfile()
 
-# class ProfileCreateView(CreateView):
-#     template_name = 'loans/Profile_create.html'
-#     form_class = Profile
-#     success_url = reverse_lazy('loans:loan-list')
+    # if request.method == 'POST':
+    #     form = RegisterProfile(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    # context = {'form':form}
+# def update_profile(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, _('Your profile was successfully updated!'))
+            return redirect('settings:profile')
+        else:
+            messages.error(request, _('Please correct the error below.'))
+    else:
+        user_form = UserForm()
+        profile_form = ProfileForm()
+    return render(request, 'loans/register.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
+    # return render(request, 'loans/register.html', context)
+
+class ProfileCreateView(CreateView):
+    template_name = 'loans/Profile_create.html'
+    form_class = Profile
+    success_url = reverse_lazy('loans:loan-list')
 
 class LoanUpdateView(UpdateView):
     template_name = 'loans/LoanInformation_update.html'
@@ -66,3 +90,8 @@ class LoanDeleteView(DeleteView):
     def get_object(self):
         id_ = self.kwargs.get("id")
         return get_object_or_404(LoanInformation, id=id_)
+
+class LoanCreateView(CreateView):
+    template_name = 'loans/LoanInformation_create.html'
+    form_class = AddLoans
+    success_url = reverse_lazy('loans:loan-list')

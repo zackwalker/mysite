@@ -1,8 +1,9 @@
 from django import forms
-from .models import LoanInformation
+from .models import LoanInformation, Profile
+from django.contrib.auth.models import User
 
 class AddLoans(forms.ModelForm):
-    
+
     class Meta:
         model = LoanInformation
         fields = [
@@ -11,3 +12,17 @@ class AddLoans(forms.ModelForm):
             'interest_rate',
             'minimum_payment',
         ]
+
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = [
+            'payoff_style',
+            'extra_payment',
+        ]
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name','username', 'email')
