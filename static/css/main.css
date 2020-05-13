@@ -1,6 +1,18 @@
-#test{
-  width: 350px;
+body {
+  /* background-color: #F5F5F5; */
+  background-color: #d5c9cd;
 }
+
+.login_block{
+  width: 350px;
+  padding: 10px;
+  background: #993333;
+  text-align: center;
+  margin: 0 auto;
+  border: 1px solid #000000;
+  color: #fff;
+}
+
 .card {
   /* Add shadows to create the "card" effect */
   /* width: 350px; */
@@ -19,10 +31,6 @@
 /* Add some padding inside the card container */
 .container {
   padding: 2px 16px;
-}
-/*this is a test to see static file structure*/
-body{
-  background-color: blue
 }
 
 .my_paragraph{

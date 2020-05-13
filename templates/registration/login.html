@@ -1,6 +1,25 @@
-<h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type='text/css' href="{% static 'css/main.css' %}">
+  </head>
+  <body>
+{% block content %}
+<div class="login_block">
+
+
+    <h2>Login</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Login</button>
+    </form>
+    </div>
+{% endblock %}
+
+  </body>
+</html>

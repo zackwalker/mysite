@@ -14,6 +14,8 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
+post_save.connect(create_user_profile, sender=User)
+
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
@@ -24,6 +26,9 @@ class LoanInformation(models.Model):
     interest_rate   = models.DecimalField(decimal_places=2, max_digits=3)
     minimum_payment = models.DecimalField(decimal_places=2, max_digits=10)
     loan_name       = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.loan_name
 
     def get_absolute_url(self):
         return reverse("loans:loan-update", kwargs={"id":self.id})
