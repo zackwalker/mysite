@@ -7,6 +7,7 @@ from  .loan_payoff_logic import master_func
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
 
 def landing_page(request):
     return render(request,'loans/landing_page.html')
@@ -43,14 +44,6 @@ def pie_chart(request):
     })
 
 def registerPage(request):
-    # form = RegisterProfile()
-
-    # if request.method == 'POST':
-    #     form = RegisterProfile(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    # context = {'form':form}
-# def update_profile(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, instance=request.user.profile)
