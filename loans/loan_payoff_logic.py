@@ -262,18 +262,11 @@ def payoff_optimization(payoff_style,avalanche_order, df,base_case_flag):
         # df.to_csv("C:\\Users\\zwalk\\Documents\\Desktop\\sentdex\\Loan_Payments\\final.csv")
         # dropped_columns = ['Period','Principal','Payment','Ending Balance']
         summary_df = df.copy()
-        print(base_case_flag)
         if base_case_flag:
             #base_case
             base_case_df = summary_df.sort_values(by=['max_periods','Total'],ascending=[False, False]).head(1) # orders by periods and then total
             needed_index = list(base_case_df.index.values)
-            print(needed_index)
             base_case(df,needed_index[0],total_payment)
-            # print(interest_comparsion)
-            # data.append(interest_comparsion)
-            # print(data)
-            # data.append(period_comparsion)
-            # data.append(out_of_pocket_comparsion)
 
         else:
             #quickest
@@ -343,8 +336,6 @@ def master_func(perms,extra_money,payoff_style):
     amortization = Loan_payoff(perms,extra_money,payoff_style)
     amortization_base = Loan_payoff(perms,0,payoff_style)
     payoff_optimization(payoff_style,avalanche_order,amortization_base,True)
-    # print(payoff_optimization(payoff_style,avalanche_order,amortization_base,True))
-    # print(payoff_optimization(payoff_style,avalanche_order,amortization,False))
     return payoff_optimization(payoff_style,avalanche_order,amortization,False)
 
 master_func(loan_list,1000,'Least Total')

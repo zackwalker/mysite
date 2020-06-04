@@ -13,6 +13,16 @@ body {
   color: #fff;
 }
 
+#form_data{
+  width: 350px;
+  padding: 10px;
+  background: #993333;
+  text-align: center;
+  margin: 0 auto;
+  border: 1px solid #000000;
+  color: #fff;
+}
+
 .card {
   /* Add shadows to create the "card" effect */
   /* width: 350px; */
