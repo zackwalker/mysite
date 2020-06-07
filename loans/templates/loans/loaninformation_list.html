@@ -1,12 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
+
     <link rel="stylesheet" type='text/css' href="{% static 'css/list.css' %}">
-  </head>
   <body>
 
     {% block content %}
@@ -24,8 +19,7 @@
 </div>
 
     {% endfor %}
-<div> <a class="btn btn-primary" href="{% url 'loans:add-loan' %}" role="button">Add a Loan</a></div>
+<div class='btntest'> <a class="btn btn-dark" href="{% url 'loans:add-loan' %}" role="button">Add a Loan</a></div>
     {% endblock %}
 
   </body>
-</html>

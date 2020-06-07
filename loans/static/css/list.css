@@ -16,13 +16,13 @@
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
+.btntest{
+  text-align: center;
+}
+
 /* Add some padding inside the card container */
 .container {
   padding: 2px 16px;
-}
-/*this is a test to see static file structure*/
-body{
-  background-color: blue
 }
 
 .my_paragraph{
