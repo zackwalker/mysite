@@ -1,16 +1,35 @@
 from django.shortcuts import render,get_object_or_404
 from .models import LoanInformation, Profile
 from .forms import AddLoans, ProfileForm, UserForm
-from django.views.generic import CreateView, DetailView, UpdateView, ListView, DeleteView
+from django.views.generic import CreateView, DetailView, UpdateView, ListView, DeleteView, View
 from itertools import permutations
 from  .loan_payoff_logic import master_func
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
+import csv
+
 
 def landing_page(request):
     return render(request,'loans/landing_page.html')
+
+class CSVFileView(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type = 'text/csv')
+        cd = 'attachment;filename="{0}"'.format('test.csv')
+        response['Content-Disposition'] = cd
+
+        fieldnames = ('principal','loan_name')
+        data = LoanInformation.objects.values(*fieldnames)
+
+        writer = csv.DictWriter(response, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+
+        return response
+
 
 class LoanListView(ListView):
     def get_queryset(self):
